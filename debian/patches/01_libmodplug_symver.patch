@@ -1,0 +1,29 @@
+Description: Add symbol versions to the libmodplug compat library
+ This should ensure there are no symbol collisions if both the original
+ libmodplug and our libopenmpt-modplug libraries are loaded at the same time.
+Author: James Cowgill <jcowgill@debian.org>
+Forwarded: no
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -21,7 +21,7 @@
+ 
+ if ENABLE_LIBOPENMPT_MODPLUG
+ lib_LTLIBRARIES += libopenmpt_modplug.la
+-libopenmpt_modplug_la_LDFLAGS = -version-info 1:0:0 -no-undefined
++libopenmpt_modplug_la_LDFLAGS = -version-info 1:0:0 -no-undefined -Wl,--version-script=libmodplug/libmodplug.ver
+ libopenmpt_modplug_la_CPPFLAGS = -I$(srcdir)/ $(LIBOPENMPT_CPPFLAGS)
+ libopenmpt_modplug_la_CXXFLAGS = $(LIBOPENMPT_CFLAGS)
+ libopenmpt_modplug_la_CFLAGS = $(LIBOPENMPT_CFLAGS)
+--- /dev/null
++++ b/libmodplug/libmodplug.ver
+@@ -0,0 +1,8 @@
++LIBOPENMPT_MODPLUG1 {
++global:
++	ModPlug_*;
++	_ZN10CSoundFile*;
++	_ZNK10CSoundFile*;
++local:
++	*;
++};

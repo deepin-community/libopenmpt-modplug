@@ -1,0 +1,7 @@
+# Test modplug compatability layer
+Tests: build-modplug
+Depends: build-essential, libopenmpt-modplug-dev, pkg-config
+
+# Control - identical code should work with old modplug
+Tests: build-modplug
+Depends: build-essential, libmodplug-dev, pkg-config
